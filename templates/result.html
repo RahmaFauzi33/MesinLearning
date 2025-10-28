@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Hasil Prediksi | Prediksi Penyakit Jantung{% endblock %}
+{% block content %}
+	<div class="row">
+		<div class="col-lg-8 mx-auto">
+			<h2 class="section-title mb-3 d-flex align-items-center gap-2"><i class="bi bi-check2-circle"></i> Hasil Prediksi</h2>
+			{% if error %}
+				<div class="alert alert-danger">{{ error }}</div>
+			{% else %}
+				<div class="card-soft p-4">
+					<div class="d-flex align-items-center justify-content-between mb-3">
+						{% set isRisk = (label|string).lower().startswith('sakit') %}
+						<span class="badge {% if isRisk %}text-bg-danger{% else %}text-bg-success{% endif %} px-3 py-2 fs-6">{{ label }}</span>
+						{% if proba is not none %}
+							<span class="text-muted">Probabilitas Risiko</span>
+						{% endif %}
+					</div>
+					{% if proba is not none %}
+						<div class="risk-meter mb-2"></div>
+						<div class="d-flex justify-content-between small text-muted">
+							<span>Rendah</span><span>Sedang</span><span>Tinggi</span>
+						</div>
+						<p class="mt-2 mb-0"><strong>{{ (proba*100)|round(1) }}%</strong> kemungkinan kondisi berisiko.</p>
+					{% endif %}
+					<hr>
+					<p class="mb-1"><strong>Catatan:</strong> Hasil ini bersifat indikatif dan bukan diagnosis medis. Konsultasikan dengan tenaga kesehatan profesional untuk evaluasi lebih lanjut.</p>
+				</div>
+			{% endif %}
+			<div class="mt-3 d-flex gap-2">
+				<a href="/" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Kembali ke Form</a>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+
